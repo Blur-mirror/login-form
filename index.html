@@ -1,11 +1,150 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Antonio Cruel - 75203</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Antonio Cruel - 75203</title>
+  </head>
+  <body>
+    <div class="container">
+      <form id="login-form" novalidate>
+        <h2>Student Login</h2>
 
-</body>
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="firstName" placeholder="Enter first name" />
+          <div class="error-message" id="firstName-error">
+            First name is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="lastName" placeholder="Enter last name" />
+          <div class="error-message" id="lastName-error">
+            Last name is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="email" placeholder="student@example.com" />
+          <div class="error-message" id="email-error">
+            Please enter a valid email
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="password" placeholder="••••••••" />
+          <div class="error-message" id="password-error">
+            Password must be at least 6 characters
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Student ID</label>
+          <input type="text" id="studentId" placeholder="123456" />
+          <div class="error-message" id="studentId-error">
+            Student ID is required
+          </div>
+        </div>
+
+        <button type="submit">Login</button>
+      </form>
+
+      <div id="success-container">
+        <div class="success-icon">✓</div>
+        <h3>Login Successful!</h3>
+        <p>Welcome back to the student portal.</p>
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById("login-form");
+      const successContainer = document.getElementById("success-container");
+
+      // Listen for the submit event
+      form.addEventListener("submit", (e) => {
+        // Stop the form from refreshing the page
+        e.preventDefault();
+
+        // Track validation state
+        let isValid = true;
+
+        // Select inputs
+        const firstName = document.getElementById("firstName");
+        const lastName = document.getElementById("lastName");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+        const studentId = document.getElementById("studentId");
+
+        // --- Validation Logic ---
+
+        // Check First Name
+        if (firstName.value.trim() === "") {
+          showError("firstName");
+          isValid = false;
+        } else {
+          hideError("firstName");
+        }
+
+        // Check Last Name
+        if (lastName.value.trim() === "") {
+          showError("lastName");
+          isValid = false;
+        } else {
+          hideError("lastName");
+        }
+
+        // Check Email (Simple regex for pattern matching)
+        const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+        if (!email.value.match(emailPattern)) {
+          showError("email");
+          isValid = false;
+        } else {
+          hideError("email");
+        }
+
+        // Check Password (Minimum length)
+        if (password.value.length < 6) {
+          showError("password");
+          isValid = false;
+        } else {
+          hideError("password");
+        }
+
+        // Check Student ID
+        if (studentId.value.trim() === "") {
+          showError("studentId");
+          isValid = false;
+        } else {
+          hideError("studentId");
+        }
+
+        // --- Final Action ---
+
+        if (isValid) {
+          // Hide the form
+          form.style.display = "none";
+          // Show the success message
+          successContainer.style.display = "block";
+          // Reset the form values
+          form.reset();
+        }
+      });
+
+      // Helper function to show error messages
+      function showError(fieldId) {
+        document.getElementById(`${fieldId}-error`).style.display = "block";
+        document.getElementById(fieldId).style.borderColor = "#d93025";
+      }
+
+      // Helper function to hide error messages
+      function hideError(fieldId) {
+        document.getElementById(`${fieldId}-error`).style.display = "none";
+        document.getElementById(fieldId).style.borderColor = "#ddd";
+      }
+    </script>
+  </body>
 </html>
